@@ -132,7 +132,7 @@ def do_forum(parentId, sectionId, chapterId, forumId):
         'voteNum': 0,
         'commentNum': 0,
         'category': '2',
-        'content': '也不因顺境使自己膨胀和骄傲。相信阳光总在风雨后，坚定信念就会在逆境中超越',
+        'content': 'hello, hola',
         'forumId': forumId
     }
 
@@ -175,6 +175,7 @@ def do_chapter(id):
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36'
     }
     json = session.get(url, headers=head).json()
+
     if ('data' in json):
         jsonData = json['data']
     else:
@@ -190,7 +191,6 @@ def do_chapter(id):
 
         # 1 是视频
         if category == '1':
-            continue
             # print(item['chapter']['title'] + title + ', 是视频, 分类' + category)
 
             if ('resource' in item):
@@ -204,6 +204,7 @@ def do_chapter(id):
 
             watch_video(cid, item['id'], item['parentId'])
         elif category == '2':
+            return
             testId = item['testId']
             paperUrl = 'http://www.cqooc.com/json/exam/papers?id=' + testId + '&ts=' + get_time()
             paperSession = session.get(paperUrl)
@@ -232,7 +233,6 @@ def do_chapter(id):
             # print('测试id ' +  testId + '\n')
 
         elif category == '3':
-            continue
             forumId = item['forumId']
             forumUrl = 'http://www.cqooc.com/json/forum?id=' + forumId + '&ts=' + get_time()
             forumSession = session.get(forumUrl)
@@ -262,4 +262,4 @@ if __name__ == '__main__':
     # 排序
     id_list.sort()
     for id in id_list:
-        do_chapter(item['id'])
+        do_chapter(id)
